@@ -4,6 +4,8 @@ import java.util.Scanner;
 import java.util.InputMismatchException;
 
 
+
+
 public class Entrada {
 
     
@@ -120,8 +122,8 @@ public class Entrada {
             System.out.println(missatge);
             while (input.hasNext()) { 
                 
-            if (inputNext().size(1)) {
-                respuesta = input.nextChar();
+            if (input.next().length() == 1) {
+                respuesta = charAt(input.nextLine()); //////////////////////ARREGLAR ESTO MAÑANA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             } 
             else {
                 System.out.println("No se ha introducido un caracter: " + input.next()); 
@@ -142,8 +144,8 @@ public class Entrada {
             System.out.println(missatge);
             while (input.hasNext()) { 
                 
-            if (input.hasNextString()) {
-                respuesta = input.nextString();
+            if (!input.hasNextInt() || !input.hasNextByte() || !input.hasNextDouble() || !input.hasNextFloat()) {
+                respuesta = input.next();
             } 
             else {
                 System.out.println("No se ha introducido un Palabra: " + input.next()); 
@@ -164,9 +166,9 @@ public class Entrada {
             System.out.println(missatge);
             while (input.hasNext()) {
 
-                if (input.hasNext().equalsIgnoreCase("s")) {
+                if (input.nextLine().equalsIgnoreCase("s")) {
                     respuesta = true;
-                } else if (input.hasNext().equalsIgnoreCase("n")) {
+                } else if (input.nextLine().equalsIgnoreCase("n")) {
                     respuesta = false;
                 }
             }
