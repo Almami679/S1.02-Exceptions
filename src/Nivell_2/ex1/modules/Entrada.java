@@ -2,7 +2,7 @@ package Nivell_2.ex1.modules;
 
 import java.util.Scanner;
 import java.util.InputMismatchException;
-
+import java.lang.String;
 
 
 
@@ -123,7 +123,7 @@ public class Entrada {
             while (input.hasNext()) { 
                 
             if (input.next().length() == 1) {
-                respuesta = charAt(input.nextLine()); //////////////////////ARREGLAR ESTO MAÑANA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                respuesta = input.next().charAt(0); //////////////////////ARREGLAR ESTO MAÑANA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             } 
             else {
                 System.out.println("No se ha introducido un caracter: " + input.next()); 
