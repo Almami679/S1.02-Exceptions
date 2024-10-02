@@ -12,9 +12,11 @@ public class Cine {
     private GestionCine gestionCine;
 
     public Cine() {
-        pedirDatosInicales();
+        numFilas = -1;
+        numButacasXFila = -1;
         gestionCine = new GestionCine();
         gestionButacas = new GestionButaca();
+        pedirDatosInicales();
 
 
     }
@@ -72,8 +74,10 @@ public class Cine {
 
                     break;
                 case 3:
-                    gestionCine.reservarButaca(gestionCine.introducirNumFila(),
-                            gestionCine.introducirNumButaca(), gestionCine.introducirPersona());
+                    int numFila = this.gestionCine.introducirNumFila();
+                    int numButaca = this.gestionCine.introducirNumButaca();
+                    String nombre = this.gestionCine.introducirPersona();
+                    gestionCine.reservarButaca(numFila, numButaca, nombre);
                     break;
 
                 case 4:
@@ -87,30 +91,33 @@ public class Cine {
                 case 0:
                     System.out.println("bye!");
 
+                    break;
+                default:
+                    System.out.println("Opcion no valida");
             }
-            input.close();
+
         }
 
-        public void pedirDatosInicales() {
+        public void pedirDatosInicales() throws InputMismatchException {
             Scanner input = new Scanner(System.in);
-            try (input) {
-                try {
-                    System.out.println("Cuantas filas tiene el cine?");
-                    while (input.hasNext()) {
+            try {
+                System.out.println("Cuantas filas tiene el cine?");
+                while (this.numFilas == -1) {
 
-                        if (input.hasNextInt()) {
-                            this.numFilas = input.nextInt();
-                        } else {
-                            System.out.println("No se ha introducido un Integer: " + input.next());
-                        }
+                    if (input.hasNextInt()) {
+                        this.numFilas = input.nextInt();
+                    } else {
+                        System.out.println("No se ha introducido un Integer: " + input.next());
                     }
-                } catch (InputMismatchException e) {
-                    System.out.println("Formato de respuesta no compatible");
-                } catch (Exception e) {
-                    System.out.println("Error inesperado: " + e.getMessage());
                 }
-                System.out.println("Cuantas butacas tiene el cine?");
-                while (input.hasNext()) {
+            } catch (InputMismatchException e) {
+                System.out.println("Formato de respuesta no compatible");
+            } catch (Exception e) {
+                System.out.println("Error inesperado: " + e.getMessage());
+            }
+            try {
+                System.out.println("Cuantas butacas tiene cada fila?");
+                while (this.numButacasXFila == -1) {
 
                     if (input.hasNextInt()) {
                         this.numButacasXFila = input.nextInt();

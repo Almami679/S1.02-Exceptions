@@ -1,9 +1,6 @@
 package NIvell_3.ex1.modules;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class GestionCine {
 
@@ -21,15 +18,13 @@ public class GestionCine {
                 System.out.println("-----------------------------------------------------------\n" +
                         "-------------------------GESTION-CINES---------------------\n" +
                         "-----------------------------------------------------------\n" +
-                        "[1]Mostrar butacas reservadas     [2] Mostrar   butacas " +
-                        "                                      reservadas / persona" +
-                        "[3]Reservar butca                 [4] Anular reserva / butaca" +
-                        "[5]Anular reservas de persona     [0] Salir");
+                        "[1]Mostrar butacas reservadas     [2] Mostrar   butacas \n" +
+                        "                                      reservadas / persona\n" +
+                        "[3]Reservar butca                 [4] Anular reserva / butaca\n" +
+                        "[5]Anular reservas de persona     [0] Salir\n");
                 respuesta = input.nextInt();
             } catch (Exception e) {
                 System.out.println("Formato de respuesta no valido\nCodigo de error: " + e.getMessage());
-            } finally {
-                input.close();
             }
         }
         return respuesta;
@@ -107,6 +102,7 @@ public class GestionCine {
         String respuesta = "";
         try {
             System.out.println("Cual es el nombre de la persona?");
+            input.next();
             String persona = input.nextLine();
             for(int letra = 0; letra <= persona.length(); letra++) {
                 for(int numero = 0; numero <= numeros.size(); numero++) {
@@ -120,8 +116,6 @@ public class GestionCine {
             }
         } catch(Exception e){
             System.out.println("Error inesperado: " + e.getMessage());
-        } finally {
-            input.close();
         }
         return respuesta;
     }
@@ -130,22 +124,43 @@ public class GestionCine {
 
     public int introducirNumFila() {
         Scanner input = new Scanner(System.in);
-        int respuesta = 0;
+        int numeroIntroducido = 0;
+        int numFila = -1;
         try {
-            System.out.println("Que numero de fila deseas reservar?");
-            int numFila = input.nextInt();
-            if(numFila > this.cine.getNumFilas() || numFila <= 0) {
-                System.out.println("ExcepcionFilaIncorrecta");
-            } else {
-                respuesta = numFila;
+            while (numFila == -1) {
+                System.out.println("Que numero de fila deseas reservar?");
+                if (input.hasNextInt()) {
+                    numeroIntroducido = input.nextInt();
+                    if (numeroIntroducido > this.cine.getNumFilas() || numeroIntroducido <= 0) {
+                    System.out.println("ExcepcionFilaIncorrecta");
+                    } else {
+                        numFila = numeroIntroducido;
+                    }
+                } else {
+                    System.out.println("No se ha introducido un Integer: " + input.next());
+                }
             }
-        } catch(Exception e){
+        } catch (InputMismatchException e) {
+            System.out.println("Formato de respuesta no compatible");
+        } catch (Exception e) {
             System.out.println("Error inesperado: " + e.getMessage());
-        } finally {
-            input.close();
         }
-        return respuesta;
+        return numFila;
     }
+//        try {
+//                System.out.println("Que numero de fila deseas reservar?");
+//                input.next();
+//                int numFila = input.nextInt();
+//                if (numFila > this.cine.getNumFilas() || numFila <= 0) {
+//                    System.out.println("ExcepcionFilaIncorrecta");
+//                } else {
+//                    respuesta = numFila;
+//                }
+//
+//        } catch(Exception e){
+//            System.out.println("Error inesperado: " + e.getMessage());
+//        }
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -153,17 +168,17 @@ public class GestionCine {
         Scanner input = new Scanner(System.in);
         int respuesta = 0;
         try {
-            System.out.println("Que numero de butaca quieres?");
-            int numButaca = input.nextInt();
-            if(numButaca > this.cine.getButacasXFila() || numButaca <= 0) {
-                System.out.println("ExcepcionAsientoIncorrecto");
-            } else {
-                respuesta = numButaca;
-            }
+                System.out.println("Que numero de butaca quieres?");
+                input.next();
+                int numButaca = input.nextInt();
+                if (numButaca > this.cine.getButacasXFila() || numButaca <= 0) {
+                    System.out.println("ExcepcionAsientoIncorrecto");
+                } else {
+                    respuesta = numButaca;
+                }
+
         } catch(Exception e){
             System.out.println("Error inesperado: " + e.getMessage());
-        } finally {
-            input.close();
         }
         return respuesta;
     }
