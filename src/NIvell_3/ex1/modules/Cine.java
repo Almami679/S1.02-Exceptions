@@ -8,10 +8,10 @@ import java.util.Scanner;
 
 public class Cine {
 
-    private int numFilas;
-    private int numButacasXFila;
-    private GestionButaca gestionButacas;
-    private GestionCine gestionCine;
+    private static int numFilas;
+    private static int numButacasXFila;
+    private final GestionButaca gestionButacas;
+    private final GestionCine gestionCine;
 
     public Cine() {
         numFilas = -1;
@@ -23,29 +23,31 @@ public class Cine {
 
     }
 
-    public int getNumFilas() {
+    public static int getNumFilas() {
+
         return numFilas;
     }
 
-    public int getButacasXFila() {
+    public static int getButacasXFila() {
+
         return numButacasXFila;
     }
 
     public void iniciar() throws Exception {
         Scanner input = new Scanner(System.in);
         int opcion = -1;
-        int loop = 0;
-        ArrayList<String> nombres = new ArrayList<>();
         while(opcion != 0) {
             opcion = this.gestionCine.menu();
             switch (opcion) {
                 case 1:
-                    System.out.println(this.gestionCine.mostrarButacasReservadas(this.gestionButacas.getButacas()));
+                    System.out.println(this.gestionCine.mostrarButacasReservadas(GestionButaca.getButacas()));
 
                     break;
                 case 2:
-                    for (int persona = 0; persona <= this.gestionButacas.getButacas().size(); persona++) {
-                        String nombre = this.gestionButacas.getButacas().get(persona).getPersona();
+                    int loop = 0;
+                    ArrayList<String> nombres = new ArrayList<>();
+                    for (int persona = 0; persona < GestionButaca.getButacas().size(); persona++) {
+                        String nombre = GestionButaca.getButacas().get(persona).getPersona();
                         if (nombres.isEmpty()) {
                             nombres.add(nombre);
                             ++loop;
@@ -58,27 +60,28 @@ public class Cine {
                     }
                     try {
                         System.out.println("De que persona quieres ver las reservas?");
-                        while (input.hasNext()) {
-                            if (input.nextInt() > nombres.size() || input.nextInt() < 0) {
-                                System.out.println(this.gestionCine.mostrarButacasPersona(nombres.get(input.nextInt() - 1)
-                                        , this.gestionButacas.getButacas()));
-                            } else {
-                                System.out.println("No se ha introducido un numero dentro de las opciones");
-                            }
+                        opcion = input.nextInt();
+                        if (!(opcion > nombres.size()) || !(opcion < 0)) {
+                            System.out.println(this.gestionCine.mostrarButacasPersona(nombres.get(input.nextInt() - 1)
+                                    , GestionButaca.getButacas()));
+                        } else {
+                            System.out.println("No se ha introducido un numero dentro de las opciones\n" +
+                                    "Vuelve a introducir una opcion");
                         }
-
                     } catch (Exception e) {
                         System.out.println("Error inesperado: " + e.getMessage());
-                    } finally {
-                        input.close();
                     }
-
                     break;
                 case 3:
                     int numFila = this.gestionCine.introducirNumFila();
                     int numButaca = this.gestionCine.introducirNumButaca();
                     String nombre = this.gestionCine.introducirPersona();
-                    this.gestionCine.reservarButaca(numFila, numButaca, nombre);
+                    if(numButaca != 0 || numFila != 0 || !nombre.equalsIgnoreCase("")) {
+                        this.gestionCine.reservarButaca(numFila, numButaca, nombre);
+                    } else {
+                        System.out.println("Datos incorrectos, no se puede realiar la reserva");
+                    }
+
                     break;
 
                 case 4:
@@ -90,6 +93,7 @@ public class Cine {
                     break;
 
                 case 0:
+                    input.close();
                     System.out.println("bye!");
 
                     break;

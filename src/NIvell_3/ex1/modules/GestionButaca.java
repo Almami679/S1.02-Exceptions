@@ -1,7 +1,6 @@
 package NIvell_3.ex1.modules;
 
 import java.util.ArrayList;
-import NIvell_3.ex1.modules.*;
 
 public class GestionButaca {
 
@@ -23,6 +22,7 @@ public class GestionButaca {
                 System.out.println("ExcepcionButacaOcupada");
             } else {
                 getButacas().add(butaca);
+                System.out.println(butaca + "\nReservada Correctamente");
             }
         } catch (Exception e) {
             System.out.println("Error inesperado: " + e.getMessage());
@@ -34,11 +34,12 @@ public class GestionButaca {
     //////////////////////////////////////////////////////////////
 
     public static void eliminarButaca(int numFila, int numButaca) {
-
-        if (buscarButaca(numFila, numButaca) == -1) {
+        int pos = buscarButaca(numFila, numButaca);
+        if (pos == -1) {
             System.out.println("ExcepcioButacaLliure");
         } else {
-            butacas.remove(buscarButaca(numFila, numButaca));
+            System.out.println("Reserva: \n" + butacas.get(pos) + " Eliminada.");
+            butacas.remove(pos);
         }
     }
 
@@ -47,7 +48,7 @@ public class GestionButaca {
 
     public static int buscarButaca(int numFila, int numButaca) {
         int respuesta = -1;
-        for(int b = 0; b <= butacas.size(); b++) {
+        for(int b = 0; b < butacas.size(); b++) {
             if (butacas.get(b).getNumFila() == numFila && butacas.get(b).getNumAsiento() == numButaca) {
                 respuesta = b;
             }

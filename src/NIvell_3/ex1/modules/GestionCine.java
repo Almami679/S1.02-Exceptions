@@ -60,7 +60,7 @@ public class GestionCine {
 
         Butaca nuevaReserva = new Butaca(numFila, numButaca, persona);
         GestionButaca.añadirButaca(nuevaReserva);
-        System.out.println(nuevaReserva.toString() + "\nReservada Correctamente");
+
 
     }
 
@@ -68,11 +68,11 @@ public class GestionCine {
 //////////////////////////////////////////////////////////////////////////////////////////
 
     public void anularReserva(int numFila, int numButaca) {
-
+        int fila = numFila;
+        int silla = numButaca;
         for(Butaca butaca : GestionButaca.getButacas())
             if(butaca.getNumFila() == numFila && butaca.getNumAsiento() == numButaca) {
-               System.out.println("Reserva: \n" + butaca.toString() + " Eliminada.");
-                GestionButaca.eliminarButaca(numFila, numButaca);
+                GestionButaca.eliminarButaca(fila, silla);
             }
     }
 
@@ -95,23 +95,25 @@ public class GestionCine {
 
 /////////////////////////////////////////////////////////////////////////////////////7///
 
-    public String introducirPersona() {
+    public String introducirPersona() throws InputMismatchException {
         Scanner input = new Scanner(System.in);
         List<String> numeros = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "0");
         String respuesta = "";
+        boolean hayNumeros = false;
         try {
             System.out.println("Cual es el nombre de la persona?");
-            input.next();
             String persona = input.nextLine();
-            for(int letra = 0; letra <= persona.length(); letra++) {
-                for(int numero = 0; numero <= numeros.size(); numero++) {
-                    if(!Character.toString(persona.charAt(letra)).equals(numeros.get(numero))) {
-                        respuesta = persona;
-                    }
-                    else {
-                        System.out.println("ExcepcioNomPersonaIncorrecte");
+            for(int letra = 0; letra < persona.length(); letra++) {
+                for(String numero : numeros) {
+                    if(Character.toString(persona.charAt(letra)).equals(numero)) {
+                        hayNumeros = true;
                     }
                 }
+            }
+            if (hayNumeros) {
+                System.out.println("Excepcion Nombre de Persona Incorrecto");
+            } else {
+                respuesta = persona;
             }
         } catch(Exception e){
             System.out.println("Error inesperado: " + e.getMessage());
@@ -127,10 +129,10 @@ public class GestionCine {
         int numFila = -1;
         try {
             while (numFila == -1) {
-                System.out.println("Que numero de fila deseas reservar?");
+                System.out.println("Que numero de fila estamos hablando?");
                 if (input.hasNextInt()) {
                     numeroIntroducido = input.nextInt();
-                    if (numeroIntroducido > cine.getNumFilas() || numeroIntroducido <= 0) {
+                    if (numeroIntroducido > Cine.getNumFilas() || numeroIntroducido <= 0) {
                     System.out.println("ExcepcionFilaIncorrecta");
                     } else {
                         numFila = numeroIntroducido;
@@ -153,18 +155,20 @@ public class GestionCine {
         Scanner input = new Scanner(System.in);
         int respuesta = 0;
         try {
-                System.out.println("Que numero de butaca quieres?");
-                input.next();
+            while(respuesta == 0) {
+                System.out.println("Que numero de butaca?");
                 int numButaca = input.nextInt();
-                if (numButaca > this.cine.getButacasXFila() || numButaca <= 0) {
+                if (numButaca > Cine.getButacasXFila() || numButaca <= 0) {
                     System.out.println("ExcepcionAsientoIncorrecto");
                 } else {
                     respuesta = numButaca;
                 }
+            }
 
         } catch(Exception e){
             System.out.println("Error inesperado: " + e.getMessage());
         }
+
         return respuesta;
     }
 }
