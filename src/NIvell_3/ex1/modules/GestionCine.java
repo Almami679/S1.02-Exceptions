@@ -76,7 +76,6 @@ public class GestionCine {
             }
     }
 
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
     public void anularReservaPersona(String persona) {
@@ -122,7 +121,7 @@ public class GestionCine {
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-    public int introducirNumFila() {
+    public int introducirNumFila() throws InputMismatchException{
         Scanner input = new Scanner(System.in);
         int numeroIntroducido = 0;
         int numFila = -1;
@@ -131,7 +130,7 @@ public class GestionCine {
                 System.out.println("Que numero de fila deseas reservar?");
                 if (input.hasNextInt()) {
                     numeroIntroducido = input.nextInt();
-                    if (numeroIntroducido > this.cine.getNumFilas() || numeroIntroducido <= 0) {
+                    if (numeroIntroducido > cine.getNumFilas() || numeroIntroducido <= 0) {
                     System.out.println("ExcepcionFilaIncorrecta");
                     } else {
                         numFila = numeroIntroducido;
@@ -147,20 +146,6 @@ public class GestionCine {
         }
         return numFila;
     }
-//        try {
-//                System.out.println("Que numero de fila deseas reservar?");
-//                input.next();
-//                int numFila = input.nextInt();
-//                if (numFila > this.cine.getNumFilas() || numFila <= 0) {
-//                    System.out.println("ExcepcionFilaIncorrecta");
-//                } else {
-//                    respuesta = numFila;
-//                }
-//
-//        } catch(Exception e){
-//            System.out.println("Error inesperado: " + e.getMessage());
-//        }
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 

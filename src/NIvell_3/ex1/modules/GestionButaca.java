@@ -1,6 +1,7 @@
 package NIvell_3.ex1.modules;
 
 import java.util.ArrayList;
+import NIvell_3.ex1.modules.*;
 
 public class GestionButaca {
 
