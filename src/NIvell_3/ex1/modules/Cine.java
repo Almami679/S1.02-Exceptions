@@ -10,6 +10,7 @@ public class Cine {
 
     private static int numFilas;
     private static int numButacasXFila;
+    public static Scanner input = new Scanner(System.in);
     private final GestionButaca gestionButacas;
     private final GestionCine gestionCine;
 
@@ -34,9 +35,8 @@ public class Cine {
     }
 
     public void iniciar() throws Exception {
-        Scanner input = new Scanner(System.in);
         int opcion = -1;
-        while(opcion != 0) {
+        do {
             opcion = this.gestionCine.menu();
             switch (opcion) {
                 case 1:
@@ -104,12 +104,11 @@ public class Cine {
                 default:
                     System.out.println("Opcion no valida");
             }
-        }
+        } while(opcion != 0);
 
         }
 
         public void pedirDatosInicales() throws InputMismatchException {
-            Scanner input = new Scanner(System.in);
             try {
                 System.out.println("Cuantas filas tiene el cine?");
                 while (this.numFilas == -1) {

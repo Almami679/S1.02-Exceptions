@@ -1,6 +1,10 @@
 package NIvell_3.ex1.modules;
 
+import NIvell_3.ex1.modules.exceptionsPersonalizadas.*;
+
 import java.util.*;
+
+import static NIvell_3.ex1.modules.Cine.input;
 
 public class GestionCine {
 
@@ -11,7 +15,6 @@ public class GestionCine {
     }
 
     public int menu() throws Exception {
-        Scanner input = new Scanner(System.in);
         int respuesta = -1;
         while (respuesta < 0 || respuesta > 5 ) {
             try {
@@ -42,7 +45,7 @@ public class GestionCine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-    public String mostrarButacasPersona(String persona, ArrayList<Butaca> butacas) {  //He tenido que añadir el array
+    public String mostrarButacasPersona(String persona, ArrayList<Butaca> butacas) {
         StringBuilder butacasReservadas = new StringBuilder();
         for(Butaca butaca : butacas) {
             if(butaca.getPersona().equalsIgnoreCase(persona)) {
@@ -56,7 +59,7 @@ public class GestionCine {
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
-    public void reservarButaca(int numFila, int numButaca, String persona) {
+    public void reservarButaca(int numFila, int numButaca, String persona) throws ExceptionButacaOcupada {
 
         Butaca nuevaReserva = new Butaca(numFila, numButaca, persona);
         GestionButaca.añadirButaca(nuevaReserva);
@@ -67,7 +70,7 @@ public class GestionCine {
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
-    public void anularReserva(int numFila, int numButaca) {
+    public void anularReserva(int numFila, int numButaca) throws ExceptionButacaLibre {
         int fila = numFila;
         int silla = numButaca;
         for(Butaca butaca : GestionButaca.getButacas())
@@ -78,7 +81,7 @@ public class GestionCine {
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-    public void anularReservaPersona(String persona) {
+    public void anularReservaPersona(String persona) throws ExceptionButacaLibre {
         StringBuilder butacasEliminadas = new StringBuilder();
         int numFilaAEliminar = -1;
         int numButacaAEliminar = -1;
@@ -95,7 +98,7 @@ public class GestionCine {
 
 /////////////////////////////////////////////////////////////////////////////////////7///
 
-    public String introducirPersona() throws InputMismatchException {
+    public String introducirPersona() {
         Scanner input = new Scanner(System.in);
         List<String> numeros = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "0");
         String respuesta = "";
@@ -110,10 +113,10 @@ public class GestionCine {
                     }
                 }
             }
-            if (hayNumeros) {
-                System.out.println("Excepcion Nombre de Persona Incorrecto");
-            } else {
+            if (!hayNumeros) {
                 respuesta = persona;
+            } else {
+                System.out.println(new ExceptionNombreErroneo().getMessage());
             }
         } catch(Exception e){
             System.out.println("Error inesperado: " + e.getMessage());
@@ -132,17 +135,15 @@ public class GestionCine {
                 System.out.println("Que numero de fila estamos hablando?");
                 if (input.hasNextInt()) {
                     numeroIntroducido = input.nextInt();
-                    if (numeroIntroducido > Cine.getNumFilas() || numeroIntroducido <= 0) {
-                    System.out.println("ExcepcionFilaIncorrecta");
-                    } else {
+                    if (!(numeroIntroducido > Cine.getNumFilas()) || !(numeroIntroducido <= 0)) {
                         numFila = numeroIntroducido;
+                    } else {
+                        System.out.println(new ExceptionFilaFueraDeRango().getMessage());
                     }
-                } else {
-                    System.out.println("No se ha introducido un Integer: " + input.next());
                 }
             }
         } catch (InputMismatchException e) {
-            System.out.println("Formato de respuesta no compatible");
+            new ExceptionFormatoErroneo("Formato de respuesta Erroneo");
         } catch (Exception e) {
             System.out.println("Error inesperado: " + e.getMessage());
         }
@@ -155,16 +156,17 @@ public class GestionCine {
         Scanner input = new Scanner(System.in);
         int respuesta = 0;
         try {
-            while(respuesta == 0) {
+            while (respuesta == 0) {
                 System.out.println("Que numero de butaca?");
                 int numButaca = input.nextInt();
-                if (numButaca > Cine.getButacasXFila() || numButaca <= 0) {
-                    System.out.println("ExcepcionAsientoIncorrecto");
-                } else {
+                if (!(numButaca > Cine.getButacasXFila()) || !(numButaca <= 0)) {
                     respuesta = numButaca;
+                } else {
+                    System.out.println(new ExceptionButacaFueraDeRango().getMessage());
                 }
             }
-
+        } catch(InputMismatchException e) {
+            new ExceptionFormatoErroneo("Formato de respuesta Erroneo");
         } catch(Exception e){
             System.out.println("Error inesperado: " + e.getMessage());
         }

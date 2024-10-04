@@ -1,5 +1,8 @@
 package NIvell_3.ex1.modules;
 
+import NIvell_3.ex1.modules.exceptionsPersonalizadas.ExceptionButacaLibre;
+import NIvell_3.ex1.modules.exceptionsPersonalizadas.ExceptionButacaOcupada;
+
 import java.util.ArrayList;
 
 public class GestionButaca {
@@ -16,16 +19,12 @@ public class GestionButaca {
 
     ////////////////////////////////////////////////////////////////
 
-    public static void añadirButaca(Butaca butaca) {
-        try {
-            if(buscarButaca(butaca.getNumFila(), butaca.getNumAsiento()) != -1) {
-                System.out.println("ExcepcionButacaOcupada");
-            } else {
-                getButacas().add(butaca);
-                System.out.println(butaca + "\nReservada Correctamente");
-            }
-        } catch (Exception e) {
-            System.out.println("Error inesperado: " + e.getMessage());
+    public static void añadirButaca(Butaca butaca) throws ExceptionButacaOcupada{
+        if(buscarButaca(butaca.getNumFila(), butaca.getNumAsiento()) == -1) {
+            getButacas().add(butaca);
+            System.out.println(butaca + "\nReservada Correctamente");
+        } else {
+            System.out.println(new ExceptionButacaOcupada().getMessage());
         }
     }
 
@@ -33,13 +32,13 @@ public class GestionButaca {
 
     //////////////////////////////////////////////////////////////
 
-    public static void eliminarButaca(int numFila, int numButaca) {
+    public static void eliminarButaca(int numFila, int numButaca) throws ExceptionButacaLibre {
         int pos = buscarButaca(numFila, numButaca);
-        if (pos == -1) {
-            System.out.println("ExcepcioButacaLliure");
-        } else {
+        if (pos != -1) {
             System.out.println("Reserva: \n" + butacas.get(pos) + " Eliminada.");
-            butacas.remove(pos);
+            butacas.remove(pos);;
+        } else {
+            System.out.println(new ExceptionButacaLibre().getMessage());
         }
     }
 
@@ -47,10 +46,13 @@ public class GestionButaca {
 ///////////////////////////////////////////////////////////////////7
 
     public static int buscarButaca(int numFila, int numButaca) {
+        int b = 0;
+        boolean butacaEncontrada = false;
         int respuesta = -1;
-        for(int b = 0; b < butacas.size(); b++) {
+        while(b < butacas.size() || !butacaEncontrada ) {
             if (butacas.get(b).getNumFila() == numFila && butacas.get(b).getNumAsiento() == numButaca) {
                 respuesta = b;
+                butacaEncontrada = true;
             }
         }
         return respuesta;
