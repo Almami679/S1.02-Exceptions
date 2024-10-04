@@ -85,10 +85,14 @@ public class Cine {
                     break;
 
                 case 4:
+                    ///Me da un error de ArrayList$Itr.checkForComodification, no se porque es, y no se como arreglarlo,
+                    /// mirando el debuguer no encuentro nada raro, deberia poder eliminar la reserva.
                     this.gestionCine.anularReserva(this.gestionCine.introducirNumFila(), this.gestionCine.introducirNumButaca());
                     break;
 
                 case 5:
+                    ///Me da un error de ArrayList$Itr.checkForComodification, no se porque es, y no se como arreglarlo,
+                    /// mirando el debuguer no encuentro nada raro, deberia poder eliminar la reserva.
                     this.gestionCine.anularReservaPersona(this.gestionCine.introducirPersona());
                     break;
 
